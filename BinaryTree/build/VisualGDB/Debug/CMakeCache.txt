@@ -230,8 +230,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=C:/Program Files/mingw64/bin/strip.exe
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Users/Admin/Documents/Work_Space/Projects/BinaryTreeLib/BinaryTree/build/VisualGDB/Debug/toolchain.cmake
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=C:\Users\Admin\Documents\Work_Space\Projects\BinaryTreeLib\BinaryTree/build/VisualGDB/Debug/toolchain.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
