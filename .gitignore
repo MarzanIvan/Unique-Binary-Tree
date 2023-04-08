@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+.visualgdb/
+.vs/
+build/
+
 # Compiled Object files
 *.slo
 *.lo
