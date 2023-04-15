@@ -22,7 +22,7 @@ template<class ValueType, class KeyType>
 	private:
 		BinaryNode<ValueType, KeyType>* Search(BinaryNode<ValueType, KeyType>* node, KeyType* Key);
 		BinaryNode<ValueType, KeyType>* Remove(BinaryNode<ValueType, KeyType>* node, KeyType* Key, ValueType* Value);
-		ValueType* ConvertToArray(BinaryNode<ValueType, KeyType>* node, ValueType* ArrayItem);
+		void ConvertToArray(BinaryNode<ValueType, KeyType>* node, ValueType* Array);
 	};
 
 template<class ValueType, class KeyType>
@@ -79,13 +79,19 @@ BinaryNode<ValueType, KeyType>* BinaryTree<ValueType, KeyType>::Remove(BinaryNod
 
 template<class ValueType, class KeyType>
 	ValueType* BinaryTree<ValueType, KeyType>::ConvertToArray() {
-		//TODO
+		ValueType* Array = new ValueType[Size];
+		ConvertToArray(Root,Array);
+		return Array;
 	}
 
 
 template<class ValueType, class KeyType>
-ValueType* BinaryTree<ValueType, KeyType>::ConvertToArray(BinaryNode<ValueType, KeyType>* node, ValueType* ArrayItem) {
-	//TODO
+void BinaryTree<ValueType, KeyType>::ConvertToArray(BinaryNode<ValueType, KeyType>* node, ValueType* Array) {
+	if (node) {
+		ConvertToArray(node->LeftNode, Array);
+		*(Array++) = node->Value;
+		ConvertToArray(node->RightNode, Array);
+	}
 }
 
 template<class ValueType, class KeyType>
