@@ -4,6 +4,6 @@
 cmake_minimum_required(VERSION 2.7)
 project(BinaryTree)
 set(LIBRARIES_FROM_REFERENCES "")
-add_executable(BinaryTree main.cpp BinaryTree.hpp)
+add_executable(BinaryTree main.cpp BinaryTree.hpp BinaryNode.h)
 target_link_libraries(BinaryTree "${LIBRARIES_FROM_REFERENCES}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++2a -std=gnu++2a")
