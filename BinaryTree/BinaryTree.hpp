@@ -9,9 +9,7 @@ template <class ValueType, class KeyType>
 
 		BinaryTree(ValueType *Array, int SizeOfArray);
 		BinaryTree();
-		~BinaryTree() {
-		
-		}
+		~BinaryTree();
 
 		bool Add(KeyType Key, ValueType Value);
 		bool Remove(KeyType Key, ValueType Value);
@@ -20,11 +18,12 @@ template <class ValueType, class KeyType>
 		BinaryNode<ValueType, KeyType> *GetMax();
 		BinaryNode<ValueType, KeyType> *GetMin();
 
-	public:
+	private:
 		BinaryNode<ValueType, KeyType> *Search(BinaryNode<ValueType, KeyType> *node, KeyType *Key);
 		bool Remove(BinaryNode<ValueType, KeyType> **node, KeyType *Key, ValueType *Value);
 		void ConvertToArray(BinaryNode<ValueType, KeyType> *node, ValueType *Array);
 		BinaryNode<ValueType, KeyType>* CutMax(BinaryNode<ValueType, KeyType>** node);
+		void RemoveAllNodes(BinaryNode<ValueType, KeyType>* node);
 	};
 
 template <class ValueType, class KeyType>
@@ -39,6 +38,21 @@ template <class ValueType, class KeyType>
 			Add(Array[i], Array[i]);
 	}
 
+template<class ValueType,class KeyType>
+	void BinaryTree<ValueType,KeyType>::RemoveAllNodes(BinaryNode<ValueType, KeyType>* node) {
+		if (!node) {
+			return;
+		}
+		RemoveAllNodes(node->LeftNode);
+		RemoveAllNodes(node->RightNode);
+		delete node;
+}
+
+template<class ValueType, class KeyType>
+inline BinaryTree<ValueType, KeyType>::~BinaryTree() {
+	RemoveAllNodes(Root);
+}
+
 template <class ValueType, class KeyType>
 	ValueType *BinaryTree<ValueType, KeyType>::Search(KeyType Key) {
 		return &Search(Root, &Key)->Value;
@@ -46,10 +60,10 @@ template <class ValueType, class KeyType>
 
 template <class ValueType, class KeyType>
 	BinaryNode<ValueType, KeyType> *BinaryTree<ValueType, KeyType>::Search(BinaryNode<ValueType, KeyType> *node, KeyType *Key) {
-		if (!node) throw ("search error");
+		if (!node) return nullptr;
 		if (node->Key == *Key) return node;
 		*Key < node->Key ? Search(node->LeftNode, Key) : Search(node->RightNode, Key);
-	}
+}
 
 template <class ValueType, class KeyType>
 	bool BinaryTree<ValueType, KeyType>::Add(KeyType Key, ValueType Value) {
