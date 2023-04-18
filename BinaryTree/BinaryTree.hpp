@@ -16,6 +16,7 @@ template <class ValueType, class KeyType=ValueType>
 		bool insert(std::pair<ValueType, KeyType> node_data);
 		bool remove(KeyType Key, ValueType Value);
 		bool is_empty();
+		int CountHeight();
 		ValueType *search(KeyType Key);
 		ValueType *to_array();
 		binarynode<ValueType, KeyType> *find_max();
@@ -27,6 +28,7 @@ template <class ValueType, class KeyType=ValueType>
 		void ConvertToArray(binarynode<ValueType, KeyType> *node, ValueType *Array);
 		binarynode<ValueType, KeyType>* CutMax(binarynode<ValueType, KeyType>** node);
 		void RemoveAllNodes(binarynode<ValueType, KeyType>* node);
+		int CountHeight(binarynode<ValueType, KeyType>* node, int MaxDeep, int Deep);
 	};
 
 template <class ValueType, class KeyType>
@@ -194,4 +196,24 @@ bool binarytree<ValueType, KeyType>::insert(std::pair<ValueType, KeyType> node_d
 template<class ValueType, class KeyType>
 bool binarytree<ValueType, KeyType>::is_empty() {
 	return root;
+}
+
+template<class ValueType, class KeyType>
+int binarytree<ValueType, KeyType>::CountHeight() {
+	return CountHeight(root, 0, 0);
+}
+
+template<class ValueType, class KeyType>
+int binarytree<ValueType, KeyType>::CountHeight(binarynode<ValueType, KeyType>* node, int MaxDeep, int Deep) {
+	if (!node) 
+		return MaxDeep;
+	if (!node->left_node && !node->right_node) {
+		return MaxDeep <= Deep ? Deep : MaxDeep;
+	}
+	if (node->left_node) 
+		++Deep;
+	CountHeight(node->left_node, MaxDeep, Deep);
+	if (node->right_node) 
+		++Deep;
+	CountHeight(node->right_node, MaxDeep, Deep);
 }
