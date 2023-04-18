@@ -8,8 +8,10 @@ template <class ValueType, class KeyType=ValueType>
 		binarynode<ValueType, KeyType>* left_node;
 		binarynode<ValueType, KeyType>* right_node;
 		
-		binarynode( ValueType &value,
-					KeyType &key,
+		void operator=(const binarynode<ValueType, KeyType> &) = delete;
+		
+		binarynode( ValueType value,
+					KeyType key,
 					binarynode<ValueType, KeyType>* left_node = nullptr, 
 					binarynode<ValueType, KeyType>* right_node = nullptr
 				  ) {
