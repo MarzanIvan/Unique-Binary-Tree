@@ -101,7 +101,7 @@ bool binarytree<ValueType, KeyType>::remove(binarynode<ValueType, KeyType> **nod
 	if ((*node)->value == *Value) {
 		auto NodeToRemove = *node;
 		size--;
-		if (!(*node)->RightNode) {
+		if (!(*node)->right_node) {
 			*node = (*node)->left_node;
 			delete NodeToRemove;
 			return true;
@@ -116,10 +116,10 @@ bool binarytree<ValueType, KeyType>::remove(binarynode<ValueType, KeyType> **nod
 		delete NodeToRemove;
 		return true;
 	}
-	if (*Key < (*node)->Key) {
+	if (*Key < (*node)->key) {
 		remove(&((*node)->left_node), Key, Value);
 	} else {
-		remove(&((*node)->RightNode), Key, Value);
+		remove(&((*node)->right_node), Key, Value);
 	}
 }
 
