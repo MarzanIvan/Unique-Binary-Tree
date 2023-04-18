@@ -15,6 +15,7 @@ template <class ValueType, class KeyType=ValueType>
 		bool insert(KeyType Key, ValueType Value);
 		bool insert(std::pair<ValueType, KeyType> node_data);
 		bool remove(KeyType Key, ValueType Value);
+		bool is_empty();
 		ValueType *search(KeyType Key);
 		ValueType *to_array();
 		binarynode<ValueType, KeyType> *find_max();
@@ -187,4 +188,10 @@ bool binarytree<ValueType, KeyType>::insert(std::pair<ValueType, KeyType> node_d
 	*NodeToSwitch = new binarynode<ValueType, KeyType>(node_data.first, node_data.second);
 	size++;
 	return true;
+}
+
+
+template<class ValueType, class KeyType>
+bool binarytree<ValueType, KeyType>::is_empty() {
+	return root;
 }
