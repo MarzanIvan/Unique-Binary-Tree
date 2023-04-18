@@ -1,21 +1,21 @@
 #pragma once
 
-template <class ValueType, class KeyType = int>
-	struct BinaryNode {
-		ValueType Value;
-		KeyType Key;
+template <class ValueType, class KeyType=ValueType>
+	struct binarynode {
+		ValueType value;
+		KeyType key;
 		
-		BinaryNode<ValueType, KeyType>* LeftNode;
-		BinaryNode<ValueType, KeyType>* RightNode;
+		binarynode<ValueType, KeyType>* left_node;
+		binarynode<ValueType, KeyType>* right_node;
 		
-		BinaryNode( ValueType &Value,
-					KeyType &Key,
-					BinaryNode<ValueType, KeyType>* LeftNode = nullptr, 
-					BinaryNode<ValueType, KeyType>* RightNode = nullptr
+		binarynode( ValueType &value,
+					KeyType &key,
+					binarynode<ValueType, KeyType>* left_node = nullptr, 
+					binarynode<ValueType, KeyType>* right_node = nullptr
 				  ) {
-			this->Value = Value;
-			this->Key = Key;
-			this->LeftNode = LeftNode;
-			this->RightNode = RightNode;
+			this->value = value;
+			this->key = key;
+			this->left_node = left_node;
+			this->right_node = right_node;
 		}
 	};

@@ -2,167 +2,167 @@
 
 #include "BinaryNode.h"
 
-template <class ValueType, class KeyType>
-	struct BinaryTree {
-		BinaryNode<ValueType, KeyType> *Root;
-		unsigned int Size;
+template <class ValueType, class KeyType=ValueType>
+	struct binarytree {
+		binarynode<ValueType, KeyType> *root;
+		unsigned int size;
 
-		BinaryTree(ValueType *Array, int SizeOfArray);
-		BinaryTree();
-		~BinaryTree();
+		binarytree(ValueType *Array, int SizeOfArray);
+		binarytree();
+		~binarytree();
 
-		bool Add(KeyType Key, ValueType Value);
-		bool Remove(KeyType Key, ValueType Value);
-		ValueType *Search(KeyType Key);
-		ValueType *ConvertToArray();
-		BinaryNode<ValueType, KeyType> *GetMax();
-		BinaryNode<ValueType, KeyType> *GetMin();
+		bool insert(KeyType Key, ValueType Value);
+		bool remove(KeyType Key, ValueType Value);
+		ValueType *search(KeyType Key);
+		ValueType *to_array();
+		binarynode<ValueType, KeyType> *find_max();
+		binarynode<ValueType, KeyType> *find_min();
 
 	private:
-		BinaryNode<ValueType, KeyType> *Search(BinaryNode<ValueType, KeyType> *node, KeyType *Key);
-		bool Remove(BinaryNode<ValueType, KeyType> **node, KeyType *Key, ValueType *Value);
-		void ConvertToArray(BinaryNode<ValueType, KeyType> *node, ValueType *Array);
-		BinaryNode<ValueType, KeyType>* CutMax(BinaryNode<ValueType, KeyType>** node);
-		void RemoveAllNodes(BinaryNode<ValueType, KeyType>* node);
+		binarynode<ValueType, KeyType> *search(binarynode<ValueType, KeyType> *node, KeyType *Key);
+		bool remove(binarynode<ValueType, KeyType> **node, KeyType *Key, ValueType *Value);
+		void ConvertToArray(binarynode<ValueType, KeyType> *node, ValueType *Array);
+		binarynode<ValueType, KeyType>* CutMax(binarynode<ValueType, KeyType>** node);
+		void RemoveAllNodes(binarynode<ValueType, KeyType>* node);
 	};
 
 template <class ValueType, class KeyType>
-	BinaryTree<ValueType, KeyType>::BinaryTree() {
-		Root = nullptr;
-		Size = 0;
+	binarytree<ValueType, KeyType>::binarytree() {
+		root = nullptr;
+		size = 0;
 	}
 
 template <class ValueType, class KeyType>
-	BinaryTree<ValueType, KeyType>::BinaryTree(ValueType *Array, int SizeOfArray) {
+	binarytree<ValueType, KeyType>::binarytree(ValueType *Array, int SizeOfArray) {
 		for (int i = 0; i < SizeOfArray; i++)
-			Add(Array[i], Array[i]);
+			insert(Array[i], Array[i]);
 	}
 
 template<class ValueType,class KeyType>
-	void BinaryTree<ValueType,KeyType>::RemoveAllNodes(BinaryNode<ValueType, KeyType>* node) {
+	void binarytree<ValueType,KeyType>::RemoveAllNodes(binarynode<ValueType, KeyType>* node) {
 		if (!node) {
 			return;
 		}
-		RemoveAllNodes(node->LeftNode);
-		RemoveAllNodes(node->RightNode);
+		RemoveAllNodes(node->left_node);
+		RemoveAllNodes(node->right_node);
 		delete node;
 }
 
 template<class ValueType, class KeyType>
-inline BinaryTree<ValueType, KeyType>::~BinaryTree() {
-	RemoveAllNodes(Root);
+inline binarytree<ValueType, KeyType>::~binarytree() {
+	RemoveAllNodes(root);
 }
 
 template <class ValueType, class KeyType>
-	ValueType *BinaryTree<ValueType, KeyType>::Search(KeyType Key) {
-		return &Search(Root, &Key)->Value;
+	ValueType *binarytree<ValueType, KeyType>::search(KeyType Key) {
+		return &search(root, &Key)->value;
 	}
 
 template <class ValueType, class KeyType>
-	BinaryNode<ValueType, KeyType> *BinaryTree<ValueType, KeyType>::Search(BinaryNode<ValueType, KeyType> *node, KeyType *Key) {
+	binarynode<ValueType, KeyType> *binarytree<ValueType, KeyType>::search(binarynode<ValueType, KeyType> *node, KeyType *Key) {
 		if (!node) return nullptr;
-		if (node->Key == *Key) return node;
-		*Key < node->Key ? Search(node->LeftNode, Key) : Search(node->RightNode, Key);
+		if (node->key == *Key) return node;
+		*Key < node->key ? search(node->left_node, Key) : search(node->right_node, Key);
 }
 
 template <class ValueType, class KeyType>
-	bool BinaryTree<ValueType, KeyType>::Add(KeyType Key, ValueType Value) {
-		if (!Size) {
-			this->Root = new BinaryNode<ValueType, KeyType>(Value, Key);
-			Size++;
+	bool binarytree<ValueType, KeyType>::insert(KeyType Key, ValueType Value) {
+		if (!size) {
+			this->root = new binarynode<ValueType, KeyType>(Value, Key);
+			size++;
 			return true;
 		}
-		BinaryNode<ValueType, KeyType> **NodeToSwitch = &Root;
+		binarynode<ValueType, KeyType> **NodeToSwitch = &root;
 		while (*NodeToSwitch) {
-			if ((*NodeToSwitch)->Value == Value || (*NodeToSwitch)->Key == Key) {
+			if ((*NodeToSwitch)->value == Value || (*NodeToSwitch)->key == Key) {
 				return false;
 			}
-			NodeToSwitch = Key < (*NodeToSwitch)->Key ? &(*NodeToSwitch)->LeftNode : &(*NodeToSwitch)->RightNode;
+			NodeToSwitch = Key < (*NodeToSwitch)->key ? &(*NodeToSwitch)->left_node : &(*NodeToSwitch)->right_node;
 		}
-		*NodeToSwitch = new BinaryNode<ValueType, KeyType>(Value, Key);
-		Size++;
+		*NodeToSwitch = new binarynode<ValueType, KeyType>(Value, Key);
+		size++;
 	}
 
 template <class ValueType, class KeyType>
-	bool BinaryTree<ValueType, KeyType>::Remove(KeyType Key, ValueType Value) {
-		return Remove(&Root, &Key, &Value);
+	bool binarytree<ValueType, KeyType>::remove(KeyType Key, ValueType Value) {
+		return remove(&root, &Key, &Value);
 	}
 
 template <class ValueType, class KeyType>
-bool BinaryTree<ValueType, KeyType>::Remove(BinaryNode<ValueType, KeyType> **node, KeyType *Key, ValueType *Value) {
+bool binarytree<ValueType, KeyType>::remove(binarynode<ValueType, KeyType> **node, KeyType *Key, ValueType *Value) {
 	if (!(*node)) return false;
-	if ((*node)->Value == *Value) {
+	if ((*node)->value == *Value) {
 		auto NodeToRemove = *node;
-		Size--;
+		size--;
 		if (!(*node)->RightNode) {
-			*node = (*node)->LeftNode;
+			*node = (*node)->left_node;
 			delete NodeToRemove;
 			return true;
 		}
-		if (!(*node)->LeftNode) {
-			*node = (*node)->RightNode;
+		if (!(*node)->left_node) {
+			*node = (*node)->right_node;
 		} else {
-			*node = CutMax(&((*node)->LeftNode));
-			(*node)->LeftNode = NodeToRemove->LeftNode;
-			(*node)->RightNode = NodeToRemove->RightNode;
+			*node = CutMax(&((*node)->left_node));
+			(*node)->left_node = NodeToRemove->left_node;
+			(*node)->right_node = NodeToRemove->right_node;
 		}
 		delete NodeToRemove;
 		return true;
 	}
 	if (*Key < (*node)->Key) {
-		Remove(&((*node)->LeftNode), Key, Value);
+		remove(&((*node)->left_node), Key, Value);
 	} else {
-		Remove(&((*node)->RightNode), Key, Value);
+		remove(&((*node)->RightNode), Key, Value);
 	}
 }
 
 template<class ValueType, class KeyType>
-	BinaryNode<ValueType, KeyType>* BinaryTree<ValueType, KeyType>::CutMax(BinaryNode<ValueType, KeyType>** node) {
-		while ((*node)->RightNode) {
-			node = &((*node)->RightNode);
+	binarynode<ValueType, KeyType>* binarytree<ValueType, KeyType>::CutMax(binarynode<ValueType, KeyType>** node) {
+		while ((*node)->right_node) {
+			node = &((*node)->right_node);
 		}
-		BinaryNode<ValueType, KeyType>* NodeToCut = *node;
-		*node = (*node)->LeftNode;
-		Size--;
+		binarynode<ValueType, KeyType>* NodeToCut = *node;
+		*node = (*node)->left_node;
+		size--;
 		return NodeToCut;
 	}
 
 template <class ValueType, class KeyType>
-	ValueType *BinaryTree<ValueType, KeyType>::ConvertToArray() {
-		ValueType *Array = new ValueType[Size];
-		ConvertToArray(Root, Array);
+	ValueType *binarytree<ValueType, KeyType>::to_array() {
+		ValueType *Array = new ValueType[size];
+		ConvertToArray(root, Array);
 		return Array;
 	}
 
 template <class ValueType, class KeyType>
-	void BinaryTree<ValueType, KeyType>::ConvertToArray(BinaryNode<ValueType, KeyType> *node, ValueType *Array) {
+	void binarytree<ValueType, KeyType>::ConvertToArray(binarynode<ValueType, KeyType> *node, ValueType *Array) {
 		if (node) {
-			ConvertToArray(node->LeftNode, Array);
-			*(Array++) = node->Value;
-			ConvertToArray(node->RightNode, Array);
+			ConvertToArray(node->left_node, Array);
+			*(Array++) = node->value;
+			ConvertToArray(node->right_node, Array);
 		}
 	}
 
 template <class ValueType, class KeyType>
-	BinaryNode<ValueType, KeyType> *BinaryTree<ValueType, KeyType>::GetMax() {
-		if (!Size) {
+	binarynode<ValueType, KeyType> *binarytree<ValueType, KeyType>::find_max() {
+		if (!size) {
 			throw ("Error has been happened to get max value.\nThe binary tree doesn't have any node");
 		}
-		auto NodeToSwitch = Root;
-		while (NodeToSwitch->RightNode) {
-			NodeToSwitch = NodeToSwitch->RightNode;
+		auto NodeToSwitch = root;
+		while (NodeToSwitch->right_node) {
+			NodeToSwitch = NodeToSwitch->right_node;
 		}
 		return NodeToSwitch;
 	}
 
 template <class ValueType, class KeyType>
-	BinaryNode<ValueType, KeyType> *BinaryTree<ValueType, KeyType>::GetMin() {
-		if (!Size) {
+	binarynode<ValueType, KeyType> *binarytree<ValueType, KeyType>::find_min() {
+		if (!size) {
 			throw ("Error has been happened to get min value from the binary tree.\nThe binary tree doesn't have any node");
 		}
-		auto NodeToSwitch = Root;
-		while (NodeToSwitch->LeftNode) {
-			NodeToSwitch = NodeToSwitch->LeftNode;
+		auto NodeToSwitch = root;
+		while (NodeToSwitch->left_node) {
+			NodeToSwitch = NodeToSwitch->left_node;
 		}
 		return NodeToSwitch;
 	}
