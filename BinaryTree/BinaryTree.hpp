@@ -196,7 +196,7 @@ bool binarytree<ValueType, KeyType>::insert(std::pair<ValueType, KeyType> node_d
 
 template<class ValueType, class KeyType>
 bool binarytree<ValueType, KeyType>::is_empty() {
-	return root;
+	return !root;
 }
 
 template<class ValueType, class KeyType>
