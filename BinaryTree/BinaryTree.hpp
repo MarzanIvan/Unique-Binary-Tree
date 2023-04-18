@@ -16,6 +16,7 @@ template <class ValueType, class KeyType=ValueType>
 		bool insert(std::pair<ValueType, KeyType> node_data);
 		bool remove(KeyType Key, ValueType Value);
 		bool is_empty();
+		void clear();
 		int CountHeight();
 		ValueType *search(KeyType Key);
 		ValueType *to_array();
@@ -216,4 +217,11 @@ int binarytree<ValueType, KeyType>::CountHeight(binarynode<ValueType, KeyType>* 
 	if (node->right_node) 
 		++Deep;
 	CountHeight(node->right_node, MaxDeep, Deep);
+}
+
+template<class ValueType, class KeyType>
+void binarytree<ValueType, KeyType>::clear() {
+	RemoveAllNodes(root);
+	root = nullptr;
+	size = 0;
 }
