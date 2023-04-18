@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BinaryNode.h"
+#include <bits/stl_pair.h>
 
 template <class ValueType, class KeyType=ValueType>
 	struct binarytree {
@@ -12,6 +13,7 @@ template <class ValueType, class KeyType=ValueType>
 		~binarytree();
 
 		bool insert(KeyType Key, ValueType Value);
+		bool insert(std::pair<ValueType, KeyType> node_data);
 		bool remove(KeyType Key, ValueType Value);
 		ValueType *search(KeyType Key);
 		ValueType *to_array();
@@ -81,6 +83,7 @@ template <class ValueType, class KeyType>
 		}
 		*NodeToSwitch = new binarynode<ValueType, KeyType>(Value, Key);
 		size++;
+		return true;
 	}
 
 template <class ValueType, class KeyType>
@@ -166,3 +169,22 @@ template <class ValueType, class KeyType>
 		}
 		return NodeToSwitch;
 	}
+
+template<class ValueType, class KeyType>
+bool binarytree<ValueType, KeyType>::insert(std::pair<ValueType, KeyType> node_data) {
+	if (!size) {
+		this->root = new binarynode<ValueType, KeyType>(node_data.first, node_data.second);
+		size++;
+		return true;
+	}
+	binarynode<ValueType, KeyType> **NodeToSwitch = &root;
+	while (*NodeToSwitch) {
+		if ((*NodeToSwitch)->value == node_data.first || (*NodeToSwitch)->key == node_data.second) {
+			return false;
+		}
+		NodeToSwitch = node_data.second < (*NodeToSwitch)->key ? &(*NodeToSwitch)->left_node : &(*NodeToSwitch)->right_node;
+	}
+	*NodeToSwitch = new binarynode<ValueType, KeyType>(node_data.first, node_data.second);
+	size++;
+	return true;
+}
