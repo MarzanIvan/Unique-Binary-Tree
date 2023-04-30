@@ -106,12 +106,12 @@ bool binarytree<ValueType, KeyType>::remove(binarynode<ValueType, KeyType> **nod
 			delete NodeToRemove;
 			return true;
 		}
-		if (!(*node)->left_node) {
-			*node = (*node)->right_node;
-		} else {
+		if ((*node)->left_node) {
 			*node = CutMax(&((*node)->left_node));
 			(*node)->left_node = NodeToRemove->left_node;
 			(*node)->right_node = NodeToRemove->right_node;
+		} else {
+			*node = (*node)->right_node;
 		}
 		delete NodeToRemove;
 		return true;
@@ -130,7 +130,6 @@ template<class ValueType, class KeyType>
 		}
 		binarynode<ValueType, KeyType>* NodeToCut = *node;
 		*node = (*node)->left_node;
-		size--;
 		return NodeToCut;
 	}
 
