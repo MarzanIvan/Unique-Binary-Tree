@@ -40,6 +40,7 @@ template <class ValueType, class KeyType>
 
 template <class ValueType, class KeyType>
 	binarytree<ValueType, KeyType>::binarytree(ValueType *Array, int SizeOfArray) {
+		size = 0;
 		for (int i = 0; i < SizeOfArray; i++)
 			insert(Array[i], Array[i]);
 	}
